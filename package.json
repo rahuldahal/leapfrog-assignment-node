@@ -1,0 +1,27 @@
+{
+  "name": "leapfrog-assignment-node",
+  "version": "0.1.0",
+  "description": "Leapfrog Technology, Inc. assignment to use node.js to create a CRUD API and React.js to consume it.",
+  "main": "src/app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint src/*",
+    "dev": "nodemon src/app"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rahuldahal/leapfrog-assignment-node.git"
+  },
+  "author": "Rahul Dahal",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rahuldahal/leapfrog-assignment-react-node/issues"
+  },
+  "homepage": "https://github.com/rahuldahal/leapfrog-assignment-react-node#readme",
+  "devDependencies": {
+    "eslint": "^8.5.0",
+    "eslint-config-prettier": "^8.3.0",
+    "nodemon": "^2.0.15",
+    "prettier": "^2.5.1"
+  }
+}
