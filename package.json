@@ -1,13 +1,12 @@
 {
   "name": "leapfrog-assignment-node",
-  "type": "module",
   "version": "0.1.0",
   "description": "Leapfrog Technology, Inc. assignment to use node.js to create a CRUD API and React.js to consume it.",
   "main": "src/app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint src/*",
-    "dev": "nodemon --es-module-specifier-resolution=node src/app"
+    "dev": "nodemon -r esm src/init"
   },
   "repository": {
     "type": "git",
@@ -27,7 +26,9 @@
   },
   "dependencies": {
     "dotenv": "^10.0.0",
+    "esm": "^3.2.25",
     "express": "^4.17.2",
-    "helmet": "^4.6.0"
+    "helmet": "^4.6.0",
+    "mongoose": "^6.1.4"
   }
 }
