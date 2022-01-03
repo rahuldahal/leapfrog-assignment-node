@@ -2,6 +2,7 @@ import bcryptjs from 'bcryptjs';
 import { Schema, model } from 'mongoose';
 import isAlphanumeric from 'validator/lib/isAlphanumeric';
 import isEmail from 'validator/lib/isEmail';
+import errorHandler from './utils';
 
 const userSchema = new Schema({
   email: String,
@@ -18,20 +19,7 @@ export async function createUser(data) {
     returnValue.message = _id;
     return returnValue;
   } catch (error) {
-    const { message, name } = error;
-    if (name === 'ValidationError') {
-      const errorsOnly = message.split('users validation failed:')[1];
-      const errorsArray = errorsOnly.split(',');
-      const readableErrors = errorsArray.map((error) =>
-        error.split(':')[1].trim()
-      );
-      returnValue.error = {
-        reason: 'clientError',
-        errorMessage: readableErrors,
-      };
-      return returnValue;
-    }
-    returnValue.error = { reason: 'serverError', errorMessage: message };
+    returnValue.error = errorHandler(error);
     return returnValue;
   }
 }
