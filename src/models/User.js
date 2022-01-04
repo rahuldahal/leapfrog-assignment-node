@@ -32,6 +32,17 @@ userSchema.pre('save', async function (next) {
   }
 });
 
+// methods
+userSchema.methods.validatePassword = async function (
+  password,
+  hashedPassword
+) {
+  return await bcryptjs.compare(password, hashedPassword);
+};
+userSchema.methods.doesEmailExist = async function (email) {
+  return await this.constructor.findOne({ email });
+};
+
 const User = model('users', userSchema);
 
 export async function createUser(data) {
@@ -45,4 +56,58 @@ export async function createUser(data) {
     returnValue.error = errorHandler(error);
     return returnValue;
   }
+}
+
+export async function signInUser({ email, password }) {
+  const returnValue = { error: null, message: null };
+  if (
+    typeof email === 'undefined' ||
+    email === '' ||
+    typeof password === 'undefined' ||
+    password === ''
+  ) {
+    returnValue.error = {
+      reason: 'clientError',
+      errorMessage: 'You must provide both email and password',
+    };
+    return returnValue;
+  }
+  if (!isEmail(email)) {
+    returnValue.error = {
+      reason: 'clientError',
+      errorMessage: 'The provided email is not of valid type',
+    };
+    return returnValue;
+  }
+  if (typeof password !== 'string') {
+    returnValue.error = {
+      reason: 'clientError',
+      errorMessage: 'The provided password is not of valid type',
+    };
+    return returnValue;
+  }
+
+  // authenticate user
+  const user = await User.prototype.doesEmailExist(email);
+  if (!user) {
+    returnValue.error = {
+      reason: 'clientError',
+      errorMessage: `The provided email '${email}' doesn't exist on our database`,
+    };
+    return returnValue;
+  }
+  const isPasswordValid = await User.prototype.validatePassword(
+    password,
+    user.password // hashed
+  );
+  if (!isPasswordValid) {
+    returnValue.error = {
+      reason: 'clientError',
+      errorMessage: 'The provided password is incorrect',
+    };
+    return returnValue;
+  }
+
+  returnValue.message = 'Logged in!';
+  return returnValue;
 }
