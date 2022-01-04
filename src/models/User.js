@@ -2,7 +2,7 @@ import bcryptjs from 'bcryptjs';
 import { Schema, model } from 'mongoose';
 import isAlphanumeric from 'validator/lib/isAlphanumeric';
 import isEmail from 'validator/lib/isEmail';
-import errorHandler from './utils';
+import errorHandler from './utils/mongooseErrorHandler';
 
 const userSchema = new Schema({
   email: String,
