@@ -1,6 +1,6 @@
 import express from 'express';
 import helmet from 'helmet';
-import { signUp } from './controllers/user';
+import { signIn, signUp } from './controllers/user';
 
 // initialize express server
 const app = express();
@@ -14,5 +14,6 @@ app.use(express.json());
 // routes
 // might use 'Router' object from express
 app.post('/signup', signUp);
+app.post('/signin', signIn);
 
 export default app;
