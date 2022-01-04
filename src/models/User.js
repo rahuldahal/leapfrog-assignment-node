@@ -9,21 +9,6 @@ const userSchema = new Schema({
   password: String,
 });
 
-const User = model('users', userSchema);
-
-export async function createUser(data) {
-  const returnValue = { error: null, message: null };
-  try {
-    const user = new User(data);
-    const { _id } = await user.save();
-    returnValue.message = _id;
-    return returnValue;
-  } catch (error) {
-    returnValue.error = errorHandler(error);
-    return returnValue;
-  }
-}
-
 // basic validation
 userSchema.path('email').validate(isEmail, 'You must provide a valid email');
 userSchema
@@ -45,3 +30,18 @@ userSchema.pre('save', async function (next) {
     next(error);
   }
 });
+
+const User = model('users', userSchema);
+
+export async function createUser(data) {
+  const returnValue = { error: null, message: null };
+  try {
+    const user = new User(data);
+    const { _id } = await user.save();
+    returnValue.message = _id;
+    return returnValue;
+  } catch (error) {
+    returnValue.error = errorHandler(error);
+    return returnValue;
+  }
+}
