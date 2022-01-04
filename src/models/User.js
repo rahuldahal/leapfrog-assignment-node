@@ -2,6 +2,7 @@ import bcryptjs from 'bcryptjs';
 import { Schema, model } from 'mongoose';
 import isAlphanumeric from 'validator/lib/isAlphanumeric';
 import isEmail from 'validator/lib/isEmail';
+import { signJWT } from './utils/jwt';
 import errorHandler from './utils/mongooseErrorHandler';
 
 const userSchema = new Schema({
@@ -38,7 +39,7 @@ export async function createUser(data) {
   try {
     const user = new User(data);
     const { _id } = await user.save();
-    returnValue.message = _id;
+    returnValue.message = signJWT({ _id });
     return returnValue;
   } catch (error) {
     returnValue.error = errorHandler(error);
