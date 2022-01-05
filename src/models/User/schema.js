@@ -8,8 +8,14 @@ const userSchema = new Schema({
   password: String,
 });
 
+// check if email is unique
+async function isEmailUnique(email) {
+  return !(await this.constructor.findOne({ email }));
+}
+
 // basic validation
 userSchema.path('email').validate(isEmail, 'You must provide a valid email');
+userSchema.path('email').validate(isEmailUnique, 'The email already exists');
 userSchema
   .path('password')
   .validate(
