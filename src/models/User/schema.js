@@ -6,6 +6,7 @@ import isEmail from 'validator/lib/isEmail';
 const userSchema = new Schema({
   email: String,
   password: String,
+  contacts: [{ type: Schema.Types.ObjectId, ref: 'Contact' }],
 });
 
 // check if email is unique
