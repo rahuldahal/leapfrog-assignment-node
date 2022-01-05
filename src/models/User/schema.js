@@ -47,6 +47,6 @@ userSchema.methods.doesEmailExist = async function (email) {
   return await this.constructor.findOne({ email });
 };
 
-const User = model('users', userSchema);
+const User = model('User', userSchema);
 
 export default User;
