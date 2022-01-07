@@ -46,26 +46,31 @@ export async function signInUser({ email, password }) {
   }
 
   // authenticate user
-  const user = await User.prototype.doesEmailExist(email);
-  if (!user) {
-    returnValue.error = {
-      reason: 'clientError',
-      errorMessage: `The provided email '${email}' doesn't exist on our database`,
-    };
-    return returnValue;
-  }
-  const isPasswordValid = await User.prototype.validatePassword(
-    password,
-    user.password // hashed
-  );
-  if (!isPasswordValid) {
-    returnValue.error = {
-      reason: 'clientError',
-      errorMessage: 'The provided password is incorrect',
-    };
-    return returnValue;
-  }
+  try {
+    const user = await User.prototype.doesEmailExist(email);
+    if (!user) {
+      returnValue.error = {
+        reason: 'clientError',
+        errorMessage: `The provided email '${email}' doesn't exist on our database`,
+      };
+      return returnValue;
+    }
+    const isPasswordValid = await User.prototype.validatePassword(
+      password,
+      user.password // hashed
+    );
+    if (!isPasswordValid) {
+      returnValue.error = {
+        reason: 'clientError',
+        errorMessage: 'The provided password is incorrect',
+      };
+      return returnValue;
+    }
 
-  returnValue.message = 'Logged in!';
-  return returnValue;
+    returnValue.message = 'Logged in!';
+    return returnValue;
+  } catch (error) {
+    console.log(error);
+    returnValue.error = errorHandler(error);
+  }
 }
