@@ -91,3 +91,18 @@ export async function addNewContact({ userId, contactId }) {
     return returnValue;
   }
 }
+
+export async function getAllContacts({ userId }) {
+  const returnValue = { error: null, message: null };
+  try {
+    const { contacts } = await User.findOne({ _id: userId })
+      .select('contacts')
+      .populate('contacts');
+    returnValue.message = { contacts };
+    return returnValue;
+  } catch (error) {
+    console.log(error);
+    returnValue.error = errorHandler(error);
+    return returnValue;
+  }
+}

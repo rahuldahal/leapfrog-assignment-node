@@ -1,4 +1,9 @@
-import { addNewContact, createUser, signInUser } from '../models/User';
+import {
+  addNewContact,
+  createUser,
+  getAllContacts,
+  signInUser,
+} from '../models/User';
 
 export async function signUp(req, res) {
   const { email, password } = req.body;
@@ -25,6 +30,17 @@ export async function signIn(req, res) {
 export async function addContact(req, res) {
   const { _id: userId, contactId } = req;
   const { error, message } = await addNewContact({ userId, contactId });
+  if (error) {
+    const { reason, errorMessage } = error;
+    const statusCode = reason === 'clientError' ? 400 : 500;
+    return res.status(statusCode).json({ message: { error: errorMessage } });
+  }
+  return res.status(200).json({ message });
+}
+
+export async function getContacts(req, res) {
+  const { _id: userId } = req;
+  const { error, message } = await getAllContacts({ userId });
   if (error) {
     const { reason, errorMessage } = error;
     const statusCode = reason === 'clientError' ? 400 : 500;
