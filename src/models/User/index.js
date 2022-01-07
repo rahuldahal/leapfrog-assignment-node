@@ -67,7 +67,7 @@ export async function signInUser({ email, password }) {
       return returnValue;
     }
 
-    returnValue.message = 'Logged in!';
+    returnValue.message = signJWT({ _id: user._id });
     return returnValue;
   } catch (error) {
     console.log(error);
