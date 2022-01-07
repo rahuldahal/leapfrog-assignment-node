@@ -11,3 +11,7 @@ export function signJWT(payload) {
     refreshToken: jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET),
   };
 }
+
+export function verifyJWT(token) {
+  return jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+}
