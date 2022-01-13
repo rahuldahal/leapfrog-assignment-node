@@ -1,7 +1,17 @@
 import express from 'express';
 import helmet from 'helmet';
-import { createContact, editContact } from './controllers/contact';
-import { addContact, getContacts, signIn, signUp } from './controllers/user';
+import {
+  createContact,
+  deleteContact,
+  editContact,
+} from './controllers/contact';
+import {
+  addContact,
+  getContacts,
+  removeContact,
+  signIn,
+  signUp,
+} from './controllers/user';
 import isAuthenticated from './middlewares/isAuthenticated';
 import isContactAssociated from './middlewares/isContactAssociated';
 
@@ -20,6 +30,13 @@ app.post('/signup', signUp);
 app.post('/signin', signIn);
 app.post('/contacts', isAuthenticated, createContact, addContact);
 app.put('/contacts/:_id', isAuthenticated, isContactAssociated, editContact);
+app.delete(
+  '/contacts/:_id',
+  isAuthenticated,
+  isContactAssociated,
+  deleteContact,
+  removeContact
+);
 app.get('/contacts', isAuthenticated, getContacts);
 
 export default app;
