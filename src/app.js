@@ -1,8 +1,9 @@
 import express from 'express';
 import helmet from 'helmet';
-import { createContact } from './controllers/contact';
+import { createContact, editContact } from './controllers/contact';
 import { addContact, getContacts, signIn, signUp } from './controllers/user';
 import isAuthenticated from './middlewares/isAuthenticated';
+import isContactAssociated from './middlewares/isContactAssociated';
 
 // initialize express server
 const app = express();
@@ -18,6 +19,7 @@ app.use(express.json());
 app.post('/signup', signUp);
 app.post('/signin', signIn);
 app.post('/contacts', isAuthenticated, createContact, addContact);
+app.put('/contacts/:_id', isAuthenticated, isContactAssociated, editContact);
 app.get('/contacts', isAuthenticated, getContacts);
 
 export default app;
