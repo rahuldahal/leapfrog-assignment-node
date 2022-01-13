@@ -1,5 +1,6 @@
 import express from 'express';
 import helmet from 'helmet';
+import cors from 'cors';
 import {
   createContact,
   deleteContact,
@@ -19,6 +20,13 @@ import isContactAssociated from './middlewares/isContactAssociated';
 const app = express();
 
 app.use(helmet());
+
+// configure cors
+
+const corsOptions = {
+  origin: ['http://localhost:8888', 'https://leapfrog-react-node.netlify.app'],
+};
+app.use(cors(corsOptions));
 
 // ways to submit data to the server
 app.use(express.urlencoded({ extended: true }));
