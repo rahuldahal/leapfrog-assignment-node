@@ -92,6 +92,23 @@ export async function addNewContact({ userId, contactId }) {
   }
 }
 
+export async function removeOneContact({ userId, contactId }) {
+  const returnValue = { error: null, message: null };
+  try {
+    const { contacts } = await User.findOneAndUpdate(
+      { _id: userId },
+      { $pull: { contacts: contactId } },
+      { new: true }
+    );
+    returnValue.message = { contacts };
+    return returnValue;
+  } catch (error) {
+    console.log(error);
+    returnValue.error = errorHandler(error);
+    return returnValue;
+  }
+}
+
 export async function getAllContacts({ userId, idOnly = false }) {
   const returnValue = { error: null, message: null };
   try {
