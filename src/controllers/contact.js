@@ -1,4 +1,4 @@
-import { create, edit } from '../models/Contact';
+import { create, edit, remove } from '../models/Contact';
 
 export async function createContact(req, res, next) {
   const { name, phone } = req.body; // TODO: add photograph as well
@@ -23,4 +23,15 @@ export async function editContact(req, res) {
     return res.status(statusCode).json({ message: { error: errorMessage } });
   }
   return res.status(201).json({ message });
+}
+
+export async function deleteContact(req, res, next) {
+  const { contactId: _id } = req;
+  const { message, error } = await remove({ _id });
+  if (error) {
+    const { reason, errorMessage } = error;
+    const statusCode = reason === 'clientError' ? 400 : 500;
+    return res.status(statusCode).json({ message: { error: errorMessage } });
+  }
+  next();
 }

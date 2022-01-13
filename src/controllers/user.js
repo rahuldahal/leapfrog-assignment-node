@@ -2,6 +2,7 @@ import {
   addNewContact,
   createUser,
   getAllContacts,
+  removeOneContact,
   signInUser,
 } from '../models/User';
 
@@ -30,6 +31,17 @@ export async function signIn(req, res) {
 export async function addContact(req, res) {
   const { _id: userId, contactId } = req;
   const { error, message } = await addNewContact({ userId, contactId });
+  if (error) {
+    const { reason, errorMessage } = error;
+    const statusCode = reason === 'clientError' ? 400 : 500;
+    return res.status(statusCode).json({ message: { error: errorMessage } });
+  }
+  return res.status(200).json({ message });
+}
+
+export async function removeContact(req, res) {
+  const { _id: userId, contactId } = req;
+  const { error, message } = await removeOneContact({ userId, contactId });
   if (error) {
     const { reason, errorMessage } = error;
     const statusCode = reason === 'clientError' ? 400 : 500;
