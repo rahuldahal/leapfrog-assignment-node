@@ -92,12 +92,17 @@ export async function addNewContact({ userId, contactId }) {
   }
 }
 
-export async function getAllContacts({ userId }) {
+export async function getAllContacts({ userId, idOnly = false }) {
   const returnValue = { error: null, message: null };
   try {
     const { contacts } = await User.findOne({ _id: userId })
       .select('contacts')
       .populate('contacts');
+    if (idOnly) {
+      const contactsIds = contacts.map((contact) => contact._id);
+      returnValue.message = { contacts: contactsIds };
+      return returnValue;
+    }
     returnValue.message = { contacts };
     return returnValue;
   } catch (error) {
