@@ -19,12 +19,7 @@ export async function edit({ _id, name, phone }) {
   // TODO: add photograph as well
   const returnValue = { error: null, message: null };
   try {
-    const updatedContact = await Contact.findOneAndUpdate(
-      { _id },
-      { name, phone },
-      { new: true }
-    );
-    returnValue.message = { updatedContact };
+    await Contact.findOneAndUpdate({ _id }, { name, phone });
     return returnValue;
   } catch (error) {
     returnValue.error = errorHandler(error);

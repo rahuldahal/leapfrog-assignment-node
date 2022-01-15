@@ -28,26 +28,26 @@ export async function signIn(req, res) {
   return res.status(200).json({ message });
 }
 
-export async function addContact(req, res) {
+export async function addContact(req, res, next) {
   const { _id: userId, contactId } = req;
-  const { error, message } = await addNewContact({ userId, contactId });
+  const { error } = await addNewContact({ userId, contactId });
   if (error) {
     const { reason, errorMessage } = error;
     const statusCode = reason === 'clientError' ? 400 : 500;
     return res.status(statusCode).json({ message: { error: errorMessage } });
   }
-  return res.status(200).json({ message });
+  return next();
 }
 
-export async function removeContact(req, res) {
+export async function removeContact(req, res, next) {
   const { _id: userId, contactId } = req;
-  const { error, message } = await removeOneContact({ userId, contactId });
+  const { error } = await removeOneContact({ userId, contactId });
   if (error) {
     const { reason, errorMessage } = error;
     const statusCode = reason === 'clientError' ? 400 : 500;
     return res.status(statusCode).json({ message: { error: errorMessage } });
   }
-  return res.status(200).json({ message });
+  return next();
 }
 
 export async function getContacts(req, res) {

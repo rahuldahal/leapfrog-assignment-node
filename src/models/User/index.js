@@ -78,12 +78,10 @@ export async function signInUser({ email, password }) {
 export async function addNewContact({ userId, contactId }) {
   const returnValue = { error: null, message: null };
   try {
-    const { contacts } = await User.findOneAndUpdate(
+    await User.findOneAndUpdate(
       { _id: userId },
-      { $push: { contacts: contactId } },
-      { new: true }
+      { $push: { contacts: contactId } }
     );
-    returnValue.message = { contacts };
     return returnValue;
   } catch (error) {
     console.log(error);
@@ -95,12 +93,10 @@ export async function addNewContact({ userId, contactId }) {
 export async function removeOneContact({ userId, contactId }) {
   const returnValue = { error: null, message: null };
   try {
-    const { contacts } = await User.findOneAndUpdate(
+    await User.findOneAndUpdate(
       { _id: userId },
-      { $pull: { contacts: contactId } },
-      { new: true }
+      { $pull: { contacts: contactId } }
     );
-    returnValue.message = { contacts };
     return returnValue;
   } catch (error) {
     console.log(error);
