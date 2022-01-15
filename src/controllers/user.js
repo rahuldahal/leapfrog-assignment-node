@@ -58,5 +58,8 @@ export async function getContacts(req, res) {
     const statusCode = reason === 'clientError' ? 400 : 500;
     return res.status(statusCode).json({ message: { error: errorMessage } });
   }
-  return res.status(200).json({ message });
+  const sortedContacts = message.contacts.sort((a, b) =>
+    a.name.localeCompare(b.name)
+  );
+  return res.status(200).json({ message: { contacts: sortedContacts } });
 }
