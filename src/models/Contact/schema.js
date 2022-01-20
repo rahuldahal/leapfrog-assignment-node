@@ -9,6 +9,12 @@ const contactSchema = new Schema({
   },
 });
 
+contactSchema.pre('save', function (next) {
+  const [firstName, lastName] = this.name.split(' '); // 'John Doe' => ['John', 'Doe'];
+  this.photograph = `${this.photograph}&name=${firstName}+${lastName}`;
+  return next();
+});
+
 const Contact = model('Contact', contactSchema);
 
 export default Contact;
