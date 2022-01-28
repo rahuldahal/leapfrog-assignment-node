@@ -15,6 +15,8 @@ import {
 } from './controllers/user';
 import isAuthenticated from './middlewares/isAuthenticated';
 import isContactAssociated from './middlewares/isContactAssociated';
+import { verifyRefreshToken } from './middlewares/verifyRefreshToken';
+import { generateNewTokenPair } from './controllers/refresh';
 
 // initialize express server
 const app = express();
@@ -53,5 +55,6 @@ app.delete(
   getContacts
 );
 app.get('/contacts', isAuthenticated, getContacts);
+app.post('/refresh', verifyRefreshToken, generateNewTokenPair);
 
 export default app;
