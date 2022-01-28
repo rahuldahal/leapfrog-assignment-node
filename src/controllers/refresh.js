@@ -5,7 +5,8 @@ import {
 } from '../models/utils/jwt';
 
 export async function generateNewTokenPair(req, res) {
-  const { _id, refreshToken } = req;
+  const { _id, refreshToken } = res.locals;
+  console.log({ _id, refreshToken });
   try {
     // invalidate refreshToken
     await removeRefreshTokenFromDatabase(refreshToken);

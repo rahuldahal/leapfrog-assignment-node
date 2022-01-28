@@ -17,8 +17,8 @@ export async function verifyRefreshToken(req, res, next) {
     const { _id } = verifyJWT(refreshToken, 'refresh'); // returns {_id(payload), iat}
 
     // add user's id and refreshToken in the request object to use in the following middleware
-    const additionalProperties = { _id, refreshToken };
-    req = { ...req, ...additionalProperties };
+    res.locals._id = _id;
+    res.locals.refreshToken = refreshToken;
     return next();
   } catch (error) {
     const { message } = error;
