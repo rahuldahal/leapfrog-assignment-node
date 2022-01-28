@@ -1,9 +1,8 @@
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
+import RefreshToken from '../RefreshToken/schema';
 
 dotenv.config();
-
-let dummyDB = [];
 
 export function generateAccessToken(payload, expiresIn = '5m') {
   return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
@@ -16,16 +15,33 @@ export function generateRefreshToken(payload) {
 }
 
 export async function findRefreshToken(token) {
-  return dummyDB.includes(token);
+  try {
+    const refreshTokens = await RefreshToken.find();
+    console.log(refreshTokens);
+    return refreshTokens.some((refreshToken) => refreshToken.token === token);
+  } catch (error) {
+    console.log(error);
+    return error.message;
+  }
 }
 
 async function addRefreshTokenToDatabase(token) {
-  return dummyDB.push(token);
+  const refreshToken = new RefreshToken({ token });
+  try {
+    await refreshToken.save();
+  } catch (error) {
+    console.log(error);
+    return error.message;
+  }
 }
 
 export async function removeRefreshTokenFromDatabase(token) {
-  dummyDB = dummyDB.filter((refreshToken) => refreshToken !== token);
-  console.log(dummyDB);
+  try {
+    await RefreshToken.findOneAndRemove({ token });
+  } catch (error) {
+    console.log(error);
+    return error.message;
+  }
 }
 
 export function verifyJWT(token, type = 'access') {
@@ -42,7 +58,6 @@ export async function signJWT(payload) {
 
   // store refresh token in the database
   await addRefreshTokenToDatabase(refreshToken);
-  console.log(dummyDB);
   return {
     accessToken,
     refreshToken,
