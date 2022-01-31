@@ -7,7 +7,7 @@ export async function generateNewTokenPair(req, res) {
     await removeRefreshTokenFromDatabase(refreshTokenFromClient);
 
     // create new pair of access and refresh token
-    const { accessToken, refreshToken } = signJWT({ _id });
+    const { accessToken, refreshToken } = await signJWT({ _id });
     res.status(200).json({
       message: { accessToken, refreshToken },
     });
