@@ -1,10 +1,10 @@
 import { removeRefreshTokenFromDatabase } from '../utils/jwt';
 
 export async function removeRefreshToken(req, res, next) {
-  const { refreshTokenFromClient } = res.locals;
+  const { refreshToken } = res.locals;
 
   try {
-    await removeRefreshTokenFromDatabase(refreshTokenFromClient);
+    await removeRefreshTokenFromDatabase(refreshToken);
     return next();
   } catch (error) {
     console.log(error);
