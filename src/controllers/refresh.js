@@ -1,11 +1,10 @@
 import { removeRefreshTokenFromDatabase, signJWT } from '../utils/jwt';
 
 export async function generateNewTokenPair(req, res) {
-  const { _id, refreshToken } = res.locals;
-  console.log({ _id, refreshToken });
+  const { _id, refreshTokenFromClient } = res.locals;
   try {
     // invalidate refreshToken
-    await removeRefreshTokenFromDatabase(refreshToken);
+    await removeRefreshTokenFromDatabase(refreshTokenFromClient);
 
     // create new pair of access and refresh token
     const { accessToken, refreshToken } = signJWT({ _id });

@@ -18,7 +18,7 @@ export async function verifyRefreshToken(req, res, next) {
 
     // add user's id and refreshToken in the request object to use in the following middleware
     res.locals._id = _id;
-    res.locals.refreshToken = refreshToken;
+    res.locals.refreshTokenFromClient = refreshToken;
     return next();
   } catch (error) {
     const { message } = error;
