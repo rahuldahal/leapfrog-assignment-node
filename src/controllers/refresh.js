@@ -1,4 +1,4 @@
-import { removeRefreshTokenFromDatabase, signJWT } from '../models/utils/jwt';
+import { removeRefreshTokenFromDatabase, signJWT } from '../utils/jwt';
 
 export async function generateNewTokenPair(req, res) {
   const { _id, refreshToken } = res.locals;

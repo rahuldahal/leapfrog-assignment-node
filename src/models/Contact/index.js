@@ -1,5 +1,5 @@
 import Contact from './schema';
-import errorHandler from '../utils/mongooseErrorHandler';
+import errorHandler from '../../utils/mongooseErrorHandler';
 
 export async function create({ name, phone }) {
   // TODO: add photograph as well

@@ -1,6 +1,6 @@
 import User from './schema';
-import { signJWT } from '../utils/jwt';
-import errorHandler from '../utils/mongooseErrorHandler';
+import { signJWT } from '../../utils/jwt';
+import errorHandler from '../../utils/mongooseErrorHandler';
 import isEmail from 'validator/lib/isEmail';
 
 export async function createUser(data) {

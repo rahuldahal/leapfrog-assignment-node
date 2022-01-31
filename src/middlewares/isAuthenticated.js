@@ -1,4 +1,4 @@
-import { verifyJWT } from '../models/utils/jwt';
+import { verifyJWT } from '../utils/jwt';
 
 export default async function isAuthenticated(req, res, next) {
   const { authorization } = req.headers;

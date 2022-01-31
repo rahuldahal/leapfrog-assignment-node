@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
-import RefreshToken from '../RefreshToken/schema';
+import RefreshToken from '../models/RefreshToken/schema';
 
 dotenv.config();
 

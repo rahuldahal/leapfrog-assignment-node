@@ -1,4 +1,4 @@
-import { findRefreshToken, verifyJWT } from '../models/utils/jwt';
+import { findRefreshToken, verifyJWT } from '../utils/jwt';
 
 export async function verifyRefreshToken(req, res, next) {
   const { refreshToken } = req.body;
