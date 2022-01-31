@@ -5,7 +5,7 @@ export default async function isAuthenticated(req, res, next) {
   const token = authorization && authorization.split(' ')[1]; // Bearer GeneratedTokenString
   if (!token) {
     return res
-      .status(403)
+      .status(401)
       .json({ message: { error: 'The authorization token is not provided' } });
   }
   try {
@@ -14,14 +14,14 @@ export default async function isAuthenticated(req, res, next) {
     next();
   } catch (error) {
     const { message } = error;
-    res.status(403);
+    res.status(401);
     if (message === 'jwt malformed') {
       return res
-        .status(403)
+        .status(401)
         .json({ message: { error: 'The authorization token is malformed' } });
     } else if (message === 'jwt expired') {
       return res
-        .status(403)
+        .status(401)
         .json({ message: { error: 'The authorization token is expired' } });
     }
     return res.status(500).json({ message: { error: message } });
