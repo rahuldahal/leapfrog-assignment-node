@@ -19,6 +19,7 @@ import { verifyRefreshToken } from './middlewares/verifyRefreshToken';
 import { generateNewTokenPair } from './controllers/refresh';
 import { removeRefreshToken } from './middlewares/removeRefreshToken';
 import { doesRefreshTokenExist } from './middlewares/doesRefreshTokenExist';
+import { authenticationSuccess } from './controllers/auth';
 
 // initialize express server
 const app = express();
@@ -40,6 +41,7 @@ app.use(express.json());
 // might use 'Router' object from express
 app.post('/signup', signUp);
 app.post('/signin', signIn);
+app.get('/auth', isAuthenticated, authenticationSuccess);
 app.post('/contacts', isAuthenticated, createContact, addContact, getContacts);
 app.put(
   '/contacts/:_id',
