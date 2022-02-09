@@ -53,7 +53,7 @@ export function verifyJWT(token, type = 'access') {
 }
 
 export async function signJWT(payload) {
-  const accessToken = generateAccessToken(payload, '15s'); // TODO: increase expiration time
+  const accessToken = generateAccessToken(payload); // TODO: increase expiration time
   const refreshToken = generateRefreshToken(payload);
 
   // store refresh token in the database
